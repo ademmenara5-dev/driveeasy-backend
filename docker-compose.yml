@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  # Service de traçage distribué Zipkin (Exigé section 4.5)
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: driveeasy-zipkin
+    ports:
+      - "9411:9411"
+    environment:
+      - STORAGE_TYPE=mem
+    restart: always
+
+networks:
+  default:
+    name: driveeasy-network

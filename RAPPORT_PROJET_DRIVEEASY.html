@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Rapport de Projet — DriveEasy (SESAME LIM3)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background-color: #fff;
+    }
+    
+    .cover-page {
+      text-align: center;
+      padding: 80px 20px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 50px;
+    }
+    
+    .university {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .module {
+      font-size: 1rem;
+      color: #64748b;
+      margin-top: 5px;
+    }
+    
+    .project-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #1d4ed8;
+      margin: 40px 0 10px;
+    }
+    
+    .project-theme {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #334155;
+    }
+    
+    .meta-box {
+      margin-top: 60px;
+      display: inline-block;
+      text-align: left;
+      background: #f8fafc;
+      padding: 20px 30px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    h2 {
+      color: #0f172a;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 8px;
+      margin-top: 40px;
+      font-weight: 700;
+    }
+    
+    h3 {
+      color: #1e40af;
+      margin-top: 25px;
+      font-weight: 600;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.95rem;
+    }
+    
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    
+    code {
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 0.9em;
+    }
+    
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: Consolas, monospace;
+      font-size: 0.9rem;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .badge-success { background: #dcfce7; color: #15803d; }
+    .badge-info { background: #e0f2fe; color: #0369a1; }
+    
+    @media print {
+      body { padding: 0; max-width: 100%; }
+      .cover-page { page-break-after: always; }
+      h2 { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cover Page -->
+  <div class="cover-page">
+    <div class="university">Université SESAME — Tunisie</div>
+    <div class="module">Licence en Informatique et Multimédia — LIM3 B/C</div>
+    <div class="module">Module : Développement d'applications web et multimédia (J2EE, .NET)</div>
+    
+    <div class="project-title">RAPPORT DE PROJET FINAL</div>
+    <div class="project-theme">Thème : Plateforme de Location de Véhicules « DriveEasy »</div>
+    
+    <div class="meta-box">
+      <div><strong>Enseignant Responsable :</strong> M. Karim Ben Romdhane</div>
+      <div><strong>Technologies :</strong> Java 21, Spring Boot 3.3.5, Spring Cloud, Angular 22, Zipkin</div>
+      <div><strong>Année Universitaire :</strong> 2026 – 2027</div>
+      <div><strong>Date de Remise :</strong> Novembre 2026</div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <h2>1. Contexte & Périmètre Fonctionnel</h2>
+  <p>La plateforme <strong>DriveEasy</strong> modernise la gestion de location courte et moyenne durée d'une agence automobile en remplaçant une architecture monolithique vieillissante par une architecture en <strong>microservices Spring Boot 3.x / Spring Cloud</strong> complétée par une interface web en <strong>Angular 22</strong> (bonus).</p>
+
+  <h3>Objectifs Métier Implémentés</h3>
+  <ul>
+    <li><strong>Gestion du Parc Automobile</strong> : gestion des caractéristiques, prix journalier, statut (<code>DISPONIBLE</code>, <code>LOUE</code>, <code>MAINTENANCE</code>) et kilométrage.</li>
+    <li><strong>Gestion de la Clientèle</strong> : suivi des pièces d'identité, âge légal (≥ 21 ans) et validité des permis de conduire.</li>
+    <li><strong>Cycle de Vie des Locations</strong> : réservation, départ, retour avec calcul automatique des pénalités de retard et remises de fidélité (Fidèle : 5%, VIP : 10%).</li>
+    <li><strong>Tableau de Bord & Indicateurs</strong> : suivi du chiffre d'affaires, taux d'occupation et véhicules les plus loués.</li>
+    <li><strong>Stockage en RAM Exclusif</strong> : respect strict de la contrainte d'absence totale de base de données (structures thread-safe <code>ConcurrentHashMap</code>).</li>
+  </ul>
+
+  <h2>2. Architecture Globale & Matrice des Composants</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Composant</th>
+        <th>Technologie</th>
+        <th>Port</th>
+        <th>Rôle & Responsabilités</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>service-registry</strong></td>
+        <td>Spring Cloud Netflix Eureka</td>
+        <td>8761</td>
+        <td>Annuaire de services : enregistrement et découverte dynamique</td>
+      </tr>
+      <tr>
+        <td><strong>config-server</strong></td>
+        <td>Spring Cloud Config Server</td>
+        <td>8888</td>
+        <td>Configuration centralisée et externalisée de chaque service</td>
+      </tr>
+      <tr>
+        <td><strong>api-gateway</strong></td>
+        <td>Spring Cloud Gateway</td>
+        <td>8080</td>
+        <td>Point d'entrée unique, routage dynamique <code>lb://</code>, CORS, filtres personnalisés</td>
+      </tr>
+      <tr>
+        <td><strong>vehicule-service</strong></td>
+        <td>Spring Boot 3.3.5 + RAM</td>
+        <td>8081</td>
+        <td>Gestion du parc, statuts, filtrage et disponibilités</td>
+      </tr>
+      <tr>
+        <td><strong>client-service</strong></td>
+        <td>Spring Boot 3.3.5 + RAM</td>
+        <td>8082</td>
+        <td>Gestion des clients, contrôle d'éligibilité et catégories de fidélité</td>
+      </tr>
+      <tr>
+        <td><strong>location-service</strong></td>
+        <td>Spring Boot + OpenFeign + RAM</td>
+        <td>8083</td>
+        <td>Cycle de vie complet, calculs tarifaires, pénalités et statistiques</td>
+      </tr>
+      <tr>
+        <td><strong>Zipkin</strong></td>
+        <td>Docker (openzipkin/zipkin)</td>
+        <td>9411</td>
+        <td>Monitoring et traçage distribué des requêtes (100% d'échantillonnage)</td>
+      </tr>
+      <tr>
+        <td><strong>driveeasy-frontend</strong></td>
+        <td>Angular 22 (Standalone)</td>
+        <td>4200</td>
+        <td>Interface web utilisateur pour les agents d'agence (Bonus jusqu'à +4 pts)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. Réalisation Backend</h2>
+  <h3>Règles de Calcul & Gestion</h3>
+  <pre>
+Prix Total = (Nombre de Jours × Prix Journalier) - Remise Fidélité + Pénalité de Retard
+- Remise Fidélité : STANDARD (0%), FIDELE (5%), VIP (10%)
+- Pénalité de Retard : 1.5 × Prix Journalier × Nombre de Jours de Retard
+- Éligibilité Client : Âge ≥ 21 ans ET Date Expiration Permis > Date du Jour
+- Promotion Fidélité Automatique : FIDELE après 5 locations terminées, VIP après 15 locations
+  </pre>
+
+  <h3>Filtre Personnalisé API Gateway</h3>
+  <p>La classe <code>RequestLoggingGatewayFilter</code> intercepte chaque requête, mesure le temps de traitement en millisecondes et injecte les en-têtes de traçage :</p>
+  <ul>
+    <li><code>X-Response-Time-Millis</code></li>
+    <li><code>X-DriveEasy-Gateway-Timestamp</code></li>
+  </ul>
+
+  <h2>4. Réalisation Frontend (Angular 22)</h2>
+  <p>Le frontend moderne implémente l'ensemble des 8 écrans exigés par le cahier des charges :</p>
+  <ul>
+    <li><code>/dashboard</code> : Tableau de bord avec indicateurs visuels et statistiques du parc.</li>
+    <li><code>/vehicules</code> : Grille de cartes avec recherche, filtres (carburant, prix max, statut).</li>
+    <li><code>/vehicules/new</code> & <code>/vehicules/:id/edit</code> : Formulaire réactif avec validations.</li>
+    <li><code>/clients</code> : Liste paginée avec alertes automatiques en cas de permis expiré.</li>
+    <li><code>/clients/:id</code> : Fiche client avec badge d'éligibilité et historique complet.</li>
+    <li><code>/locations/new</code> : Assistant de réservation en 4 étapes (Client &rarr; Période &rarr; Véhicule disponible &rarr; Devis & confirmation).</li>
+    <li><code>/locations</code> : Gestion des statuts et boutons d'action (Départ, Retour, Annuler).</li>
+    <li><code>/locations/:id/retour</code> : Enregistrement kilométrique, calcul des pénalités et récapitulatif imprimable.</li>
+  </ul>
+
+  <h2>5. Instructions de Lancement & Validation</h2>
+  <pre>
+# 1. Démarrer Zipkin (Docker)
+docker-compose up -d
+
+# 2. Démarrer Eureka Server (8761)
+cd service-registry && mvn spring-boot:run
+
+# 3. Démarrer Config Server (8888)
+cd ../config-server && mvn spring-boot:run
+
+# 4. Démarrer les Microservices Métier (8081, 8082, 8083)
+cd ../vehicule-service && mvn spring-boot:run
+cd ../client-service && mvn spring-boot:run
+cd ../location-service && mvn spring-boot:run
+
+# 5. Démarrer l'API Gateway (8080)
+cd ../api-gateway && mvn spring-boot:run
+
+# 6. Démarrer le Frontend Angular (4200)
+cd ../driveeasy-frontend && npm start
+  </pre>
+
+</body>
+</html>

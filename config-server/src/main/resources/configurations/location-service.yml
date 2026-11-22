@@ -1,0 +1,33 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: location-service
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+driveeasy:
+  location:
+    remise-fidele-pourcentage: 0.05
+    remise-vip-pourcentage: 0.10
+    penalite-retard-facteur: 1.5
+    seuil-fidele: 5
+    seuil-vip: 15
