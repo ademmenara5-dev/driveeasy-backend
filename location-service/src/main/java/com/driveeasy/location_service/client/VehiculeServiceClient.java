@@ -11,6 +11,6 @@ public interface VehiculeServiceClient {
     @GetMapping("/vehicules/{id}")
     VehiculeDto getVehiculeById(@PathVariable("id") Long id);
 
-    @PatchMapping("/vehicules/{id}/statut")
+    @PutMapping("/vehicules/{id}/statut")
     VehiculeDto updateStatut(@PathVariable("id") Long id, @RequestBody Map<String, String> body);
 }

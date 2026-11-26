@@ -14,6 +14,6 @@ public interface ClientServiceClient {
     @GetMapping("/clients/{id}/eligibilite")
     EligibiliteDto checkEligibilite(@PathVariable("id") Long id);
 
-    @PatchMapping("/clients/{id}/categorie")
+    @PutMapping("/clients/{id}/categorie")
     ClientDto updateCategorie(@PathVariable("id") Long id, @RequestBody Map<String, String> body);
 }

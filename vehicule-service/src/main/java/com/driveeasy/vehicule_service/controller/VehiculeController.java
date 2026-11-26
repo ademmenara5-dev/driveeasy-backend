@@ -61,7 +61,7 @@ public class VehiculeController {
         vehiculeService.deleteVehicule(id);
     }
 
-    @PatchMapping("/{id}/statut")
+    @RequestMapping(value = "/{id}/statut", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<VehiculeResponseDto> updateStatut(
             @PathVariable Long id,
             @Valid @RequestBody StatutUpdateRequestDto dto) {

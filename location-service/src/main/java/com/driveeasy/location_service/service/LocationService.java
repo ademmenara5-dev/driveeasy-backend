@@ -46,14 +46,33 @@ public class LocationService {
                 .filter(l -> clientId == null || clientId.equals(l.getClientId()))
                 .filter(l -> vehiculeId == null || vehiculeId.equals(l.getVehiculeId()))
                 .sorted(Comparator.comparing(Location::getDateCreation).reversed())
-                .map(LocationResponseDto::fromEntity)
+                .map(this::enrichDto)
                 .collect(Collectors.toList());
     }
 
     public LocationResponseDto getLocationById(Long id) {
         Location loc = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Location avec l'ID " + id + " introuvable."));
-        return LocationResponseDto.fromEntity(loc);
+        return enrichDto(loc);
+    }
+
+    private LocationResponseDto enrichDto(Location loc) {
+        LocationResponseDto dto = LocationResponseDto.fromEntity(loc);
+        if (dto != null) {
+            try {
+                ClientDto c = clientServiceClient.getClientById(loc.getClientId());
+                if (c != null) {
+                    dto.setClientNom(c.getPrenom() + " " + c.getNom());
+                }
+            } catch (Exception ignored) {}
+            try {
+                VehiculeDto v = vehiculeServiceClient.getVehiculeById(loc.getVehiculeId());
+                if (v != null) {
+                    dto.setVehiculeNom(v.getMarque() + " " + v.getModele() + " (" + v.getImmatriculation() + ")");
+                }
+            } catch (Exception ignored) {}
+        }
+        return dto;
     }
 
     public LocationEnrichieResponseDto getLocationEnrichie(Long id) {
@@ -131,7 +150,7 @@ public class LocationService {
         loc.setDateCreation(LocalDateTime.now());
 
         Location saved = repository.save(loc);
-        return LocationResponseDto.fromEntity(saved);
+        return enrichDto(saved);
     }
 
     public SimulationResponseDto simulatePrice(SimulationRequestDto dto) {
@@ -179,7 +198,7 @@ public class LocationService {
 
         loc.setStatut(StatutLocation.EN_COURS);
         Location saved = repository.save(loc);
-        return LocationResponseDto.fromEntity(saved);
+        return enrichDto(saved);
     }
 
     public LocationResponseDto cloturerRetour(Long id, RetourRequestDto dto) {
@@ -227,7 +246,7 @@ public class LocationService {
             log.warn("Impossible de mettre à jour la catégorie du client ID {}: {}", loc.getClientId(), e.getMessage());
         }
 
-        return LocationResponseDto.fromEntity(saved);
+        return enrichDto(saved);
     }
 
     public LocationResponseDto annulerLocation(Long id) {
@@ -249,7 +268,7 @@ public class LocationService {
 
         loc.setStatut(StatutLocation.ANNULEE);
         Location saved = repository.save(loc);
-        return LocationResponseDto.fromEntity(saved);
+        return enrichDto(saved);
     }
 
     public StatistiquesResponseDto getStatistiques() {

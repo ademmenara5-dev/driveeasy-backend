@@ -59,7 +59,7 @@ public class ClientController {
         return ResponseEntity.ok(res);
     }
 
-    @PatchMapping("/{id}/categorie")
+    @RequestMapping(value = "/{id}/categorie", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<ClientResponseDto> updateCategorie(
             @PathVariable Long id,
             @Valid @RequestBody CategorieUpdateRequestDto dto) {

@@ -11,7 +11,9 @@ public class LocationResponseDto {
 
     private Long id;
     private Long clientId;
+    private String clientNom;
     private Long vehiculeId;
+    private String vehiculeNom;
     private LocalDate dateDebut;
     private LocalDate dateFinPrevue;
     private LocalDate dateRetourEffectif;
@@ -61,12 +63,28 @@ public class LocationResponseDto {
         this.clientId = clientId;
     }
 
+    public String getClientNom() {
+        return clientNom;
+    }
+
+    public void setClientNom(String clientNom) {
+        this.clientNom = clientNom;
+    }
+
     public Long getVehiculeId() {
         return vehiculeId;
     }
 
     public void setVehiculeId(Long vehiculeId) {
         this.vehiculeId = vehiculeId;
+    }
+
+    public String getVehiculeNom() {
+        return vehiculeNom;
+    }
+
+    public void setVehiculeNom(String vehiculeNom) {
+        this.vehiculeNom = vehiculeNom;
     }
 
     public LocalDate getDateDebut() {

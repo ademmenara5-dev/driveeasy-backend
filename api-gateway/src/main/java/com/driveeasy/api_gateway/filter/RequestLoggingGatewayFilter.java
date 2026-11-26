@@ -29,16 +29,24 @@ public class RequestLoggingGatewayFilter implements GlobalFilter, Ordered {
                 .header("X-DriveEasy-Gateway-Timestamp", String.valueOf(startTime))
                 .build();
 
+        ServerHttpResponse response = exchange.getResponse();
+        response.beforeCommit(() -> {
+            long duration = System.currentTimeMillis() - startTime;
+            try {
+                response.getHeaders().add("X-Response-Time-Millis", String.valueOf(duration));
+                response.getHeaders().add("X-Gateway-Processed-By", "DriveEasy-Spring-Cloud-Gateway");
+            } catch (Exception ignored) {
+            }
+            return Mono.empty();
+        });
+
         ServerWebExchange mutatedExchange = exchange.mutate().request(mutatedRequest).build();
 
-        return chain.filter(mutatedExchange).then(Mono.fromRunnable(() -> {
-            ServerHttpResponse response = mutatedExchange.getResponse();
+        return chain.filter(mutatedExchange).doFinally(signalType -> {
             long duration = System.currentTimeMillis() - startTime;
             log.info("[API-GATEWAY] Réponse sortante : {} {} | Statut: {} | Durée: {} ms",
                     request.getMethod(), request.getURI().getPath(), response.getStatusCode(), duration);
-            response.getHeaders().add("X-Response-Time-Millis", String.valueOf(duration));
-            response.getHeaders().add("X-Gateway-Processed-By", "DriveEasy-Spring-Cloud-Gateway");
-        }));
+        });
     }
 
     @Override
